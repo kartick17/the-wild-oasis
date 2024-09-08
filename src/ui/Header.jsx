@@ -1,13 +1,9 @@
-import styled from "styled-components";
-
-const StyledHeader = styled.header`
-  background-color: var(--color-grey-0);
-  padding: 1.2rem 4.8rem;
-  border-bottom: 1px solid var(--color-grey-100);
-`;
-
 function Header() {
-  return <StyledHeader>HEADER</StyledHeader>;
+  return (
+    <header className="border-b border-gray-100 px-[4.8rem] py-[1.2rem]">
+      HEADER
+    </header>
+  );
 }
 
 export default Header;
