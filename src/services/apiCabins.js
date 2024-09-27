@@ -27,6 +27,8 @@ export async function createEditCabin(newCabin, id) {
 
   const { data: cabin, error } = await query.select().single()
 
+  if (hasImagePath) return cabin
+
   if (error) {
     console.error(error)
     throw new Error('Cabin could not be created.')
