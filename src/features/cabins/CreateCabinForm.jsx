@@ -9,7 +9,7 @@ import FileInput from '../../ui/FileInput'
 import { useEditCabin } from './useEditCabin'
 import { useCreateCabin } from './useCreateCabin'
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { editCabin, isEditing } = useEditCabin()
   const { createCabin, isCreating } = useCreateCabin()
   const isWorking = isCreating || isEditing
@@ -28,15 +28,33 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     if (isEditSession)
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
-        { onSuccess: () => reset() },
+        {
+          onSuccess: () => {
+            reset()
+            onCloseModal?.()
+          },
+        },
       )
-    else createCabin({ ...data, image }, { onSuccess: () => reset() })
+    else
+      createCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset()
+            onCloseModal?.()
+          },
+        },
+      )
+    onCloseModal()
   }
 
   function onError(errors) {}
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? 'modal' : 'regular'}
+    >
       <FormRow label='Cabin name' error={errors?.name?.message}>
         <Input
           id='name'
@@ -110,7 +128,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation='secondary' type='reset'>
+        <Button
+          variation='secondary'
+          type='reset'
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

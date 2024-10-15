@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import { cloneElement, createContext, useContext, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { HiXMark } from 'react-icons/hi2'
+import styled from 'styled-components'
+import { useOutsideClick } from '../hooks/useOutsideClick'
 
 const StyledModal = styled.div`
   position: fixed;
@@ -10,7 +14,7 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
-`;
+`
 
 const Overlay = styled.div`
   position: fixed;
@@ -22,7 +26,7 @@ const Overlay = styled.div`
   backdrop-filter: blur(4px);
   z-index: 1000;
   transition: all 0.5s;
-`;
+`
 
 const Button = styled.button`
   background: none;
@@ -47,4 +51,59 @@ const Button = styled.button`
     stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
-`;
+`
+
+const ModalContext = createContext()
+
+function Modal({ children }) {
+  const [openName, setOpenName] = useState('')
+
+  const close = () => {
+    console.log('Closing modal')
+    setOpenName('')
+  }
+
+  const open = (name) => {
+    console.log(`Opening modal: ${name}`)
+    setOpenName(name)
+  }
+
+  return (
+    <ModalContext.Provider value={{ openName, open, close }}>
+      {children}
+    </ModalContext.Provider>
+  )
+}
+
+function Open({ children, opens: openWindowName }) {
+  const { open } = useContext(ModalContext)
+  const element = cloneElement(children, {
+    onClick: () => open(openWindowName),
+  })
+
+  return element
+}
+
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext)
+  const ref = useOutsideClick(close)
+
+  if (openName !== name) return null
+
+  return createPortal(
+    <Overlay>
+      <StyledModal ref={ref}>
+        <Button onClick={close}>
+          <HiXMark />
+        </Button>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body,
+  )
+}
+
+Modal.Open = Open
+Modal.Window = Window
+
+export default Modal
