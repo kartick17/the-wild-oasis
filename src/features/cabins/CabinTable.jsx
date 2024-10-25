@@ -20,10 +20,10 @@ function CabinTable() {
     filterCabins = cabins?.filter((cabin) => cabin.discount > 0)
 
   // 2) Sort
-  const sortBy = searchParams.get('sortBy')
-  const [field, direction] = sortBy.split('-')
+  const sortBy = searchParams.get('sortBy') || 'created_at-desc'
+  const [field, direction] = sortBy?.split('-')
   const modifier = direction === 'asc' ? 1 : -1
-  const sortedCabins = filterCabins.sort(
+  const sortedCabins = filterCabins?.sort(
     (a, b) => (a[field] - b[field]) * modifier,
   )
 
