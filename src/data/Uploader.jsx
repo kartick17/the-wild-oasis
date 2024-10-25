@@ -133,6 +133,9 @@ export function Uploader() {
         padding: '8px',
         borderRadius: '5px',
         textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5px',
       }}
     >
       <h3>DEV AREA</h3>
@@ -142,18 +145,19 @@ export function Uploader() {
         // To prevent accidental clicks. Remove to run once!
         disabled={isLoading}
         // disabled={true}
+        size='small'
       >
-        Upload ALL sample data
+        Upload ALL
       </Button>
-      <p>Only run this only once!</p>
+      {/* <p>Only run this only once!</p>
       <p>
         <em>(Cabin images need to be uploaded manually)</em>
-      </p>
+      </p> */}
       <hr />
-      <Button onClick={uploadBookings} disabled={isLoading}>
-        Upload CURRENT bookings
+      <Button onClick={uploadBookings} disabled={isLoading} size='small'>
+        Upload bookings ONLY
       </Button>
-      <p>You can run this every day you develop the app</p>
+      {/* <p>You can run this every day you develop the app</p> */}
     </div>
   )
 }

@@ -48,6 +48,15 @@ const variations = {
   `,
 }
 
+const width = {
+  full: css`
+    width: auto;
+  `,
+  fit: css`
+    width: fit-content;
+  `,
+}
+
 const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
@@ -55,11 +64,13 @@ const Button = styled.button`
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
+  ${(props) => width[props.width]}
 `
 
 Button.defaultProps = {
   variation: 'primary',
   size: 'medium',
+  width: 'full',
 }
 
 export default Button
