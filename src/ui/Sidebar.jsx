@@ -1,15 +1,28 @@
-import { Uploader } from '../data/Uploader'
+import styled from 'styled-components'
+
 import Logo from './Logo'
 import MainNav from './MainNav'
+import { Uploader } from '../data/Uploader'
+
+const StyledSidebar = styled.aside`
+  background-color: var(--color-grey-0);
+  padding: 3.2rem 2.4rem;
+  border-right: 1px solid var(--color-grey-100);
+
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+`
 
 function Sidebar() {
   return (
-    <aside className='row-span-full flex flex-col gap-[3.2rem] border-r border-gray-100 px-[3.2rem] py-[2.4rem]'>
+    <StyledSidebar>
       <Logo />
       <MainNav />
 
       <Uploader />
-    </aside>
+    </StyledSidebar>
   )
 }
 

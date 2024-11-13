@@ -8,14 +8,15 @@ import Login from './pages/Login'
 import Cabins from './pages/Cabins'
 import Booking from './pages/Booking'
 import Account from './pages/Account'
+import CheckIn from './pages/CheckIn'
 import AppLayout from './ui/AppLayout'
 import Settings from './pages/Settings'
 import Bookings from './pages/Bookings'
 import Dashboard from './pages/Dashboard'
 import PageNotFound from './pages/PageNotFound'
 import GlobalStyles from './styles/GlobalStyles'
-import CheckIn from './pages/CheckIn'
 import ProtectedRoute from './ui/ProtectedRoute'
+import { DarkModeProvider } from './context/DarkModeContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +29,7 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <>
+    <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyles />
@@ -78,7 +79,7 @@ function App() {
           }}
         />
       </QueryClientProvider>
-    </>
+    </DarkModeProvider>
   )
 }
 
