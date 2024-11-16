@@ -1,4 +1,5 @@
 import { PAGE_SIZE } from '../utils/constants'
+import { getToday } from '../utils/helpers'
 import supabase from './supabase'
 
 export async function getBookings({ filter, sortBy, page }) {
@@ -35,6 +36,36 @@ export async function getBooking(id) {
     .select('*, guests(*), cabins(*)')
     .eq('id', id)
     .single()
+
+  if (error) {
+    console.error(error)
+    throw new Error('Booking could not be loaded')
+  }
+
+  return data
+}
+
+export async function getBookingsAfterDate(date) {
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('created_at, totalPrice, extrasPrice')
+    .gte('created_at', date)
+    .lte('created_at', getToday({ end: true }))
+
+  if (error) {
+    console.error(error)
+    throw new Error('Bookings could not be loaded')
+  }
+
+  return data
+}
+
+export async function getStaysAfterDate(date) {
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*, guests(fullName)')
+    .gte('startDate', date)
+    .lte('startDate', getToday())
 
   if (error) {
     console.error(error)
