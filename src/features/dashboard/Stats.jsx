@@ -28,7 +28,7 @@ export default function Stats({ bookings, confirmStays, numDays, cabinCount }) {
       />
       <Stat
         title='Sales'
-        icon={<HiOutlineBriefcase />}
+        icon={<HiOutlineBanknotes />}
         color='green'
         value={formatCurrency(sales)}
       />
